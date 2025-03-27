@@ -6,6 +6,7 @@ on:
 
 jobs:
   install-chrome:
+    runs-on: ubuntu-latest
     steps:
       - name: Install Chrome and ChromeDriver
         run: |
