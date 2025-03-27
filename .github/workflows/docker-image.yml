@@ -103,6 +103,12 @@ jobs:
     needs: e2e-tests-python
     if: success()  # Solo ejecuta si todo lo anterior pasó
     steps:
+      - name: Usar un Secret en un Comando
+        run: echo "Mi usuario es ${{ secrets.DOCKER_USERNAME }}"
+
+      - name: Password
+        run: echo "Mi contraseña es ${{ secrets.DOCKER_PASSWORD }}"
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
