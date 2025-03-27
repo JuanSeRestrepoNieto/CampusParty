@@ -6,11 +6,12 @@ on:
 
 jobs:
   install-chrome:
-    name: Install Chrome and ChromeDriver
-    run: |
-      sudo apt update
-      sudo apt install -y google-chrome-stable
-      sudo apt install -y chromium-chromedriver
+    steps:
+      - name: Install Chrome and ChromeDriver
+        run: |
+          sudo apt update
+          sudo apt install -y google-chrome-stable
+          sudo apt install -y chromium-chromedriver
 
   quality-gates:
     name: Lint and Format Check
