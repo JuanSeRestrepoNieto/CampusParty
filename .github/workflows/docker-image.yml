@@ -37,10 +37,10 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm ci
+        run: cd Back && npm ci
 
       - name: Run Unit Tests
-        run: npm run test
+        run: cd Back && npm run test
 
   install-chrome:
     name: Install Chrome
