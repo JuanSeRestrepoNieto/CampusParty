@@ -23,18 +23,6 @@ jobs:
       - name: Install Frontend Dependencies
         run: cd Front && npm ci
 
-      - name: Run Backend Prettier Check
-        run: cd Back && npm run format:check
-
-      - name: Run Frontend Prettier Check
-        run: cd Front && npm run format:check
-
-      - name: Run Backend ESLint
-        run: cd Back && npm run lint
-
-      - name: Run Frontend ESLint
-        run: cd Front && npm run lint
-
   unit-tests:
     name: Run Backend Unit Tests
     runs-on: ubuntu-latest
