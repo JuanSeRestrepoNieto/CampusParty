@@ -18,22 +18,22 @@ jobs:
           node-version: 20
 
       - name: Install Backend Dependencies
-        run: cd .. && cd Back && npm ci
+        run: cd Back && npm ci
 
       - name: Install Frontend Dependencies
-        run: cd .. && cd Front && npm ci
+        run: cd Front && npm ci
 
       - name: Run Backend Prettier Check
-        run: cd .. && cd Back && npm run format:check
+        run: cd Back && npm run format:check
 
       - name: Run Frontend Prettier Check
-        run: cd .. && cd Front && npm run format:check
+        run: cd Front && npm run format:check
 
       - name: Run Backend ESLint
-        run: cd .. && cd Back && npm run lint
+        run: cd Back && npm run lint
 
       - name: Run Frontend ESLint
-        run: cd .. && cd Front && npm run lint
+        run: cd Front && npm run lint
 
   unit-tests:
     name: Run Backend Unit Tests
