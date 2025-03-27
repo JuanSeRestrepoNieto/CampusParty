@@ -83,19 +83,19 @@ jobs:
 
       - name: Create Virtual Environment
         run: |
-          cd e2e-tests-python
+          cd CampusPartyAutomationTest
           python -m venv venv
           source venv/bin/activate
 
       - name: Install Dependencies
         run: |
-          cd e2e-tests-python
+          cd CampusPartyAutomationTest
           source venv/bin/activate
           pip install -r requirements.txt
 
       - name: Run E2E Tests (Selenium, PyTest, etc.)
         run: |
-          cd e2e-tests-python
+          cd CampusPartyAutomationTest
           source venv/bin/activate
           python runnert.py --browser chrome --headless --report
 
