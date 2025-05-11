@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
       const [usersData, integracionData, pabellonesData] = await Promise.all([
         dashboardService.getUsers(),
         integracionService.getJSONPlaceHolder(),
-        dashboardService.getPabellones(token!)
+        dashboardService.getPabellones()
       ]);
       setUsers(usersData);
       setPabellones(pabellonesData);
@@ -115,7 +115,7 @@ const Dashboard: React.FC = () => {
         email: editUserForm.email,
         password: editUserForm.password,
         role: editUserForm.role
-      }, token!);
+      });
       setSelectedUser(null);
       setEditUserForm({
         id: '',
@@ -153,7 +153,7 @@ const Dashboard: React.FC = () => {
 
   const handleDeleteUser = async (id: string) => {
     try {
-      await dashboardService.deleteUser(id, token!);
+      await dashboardService.deleteUser(id);
       await fetchData();
     } catch (error) {
       console.error('Error deleting user:', error);

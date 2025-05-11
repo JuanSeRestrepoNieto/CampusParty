@@ -53,14 +53,14 @@ export interface Pabellon {
 
 export interface DashboardService {
   // Usuarios
-  getUsers: (token: string) => Promise<User[]>;
+  getUsers: () => Promise<User[]>;
   getUser: (id: string) => Promise<User>;
-  createUser: (data: Partial<User>, token: string) => Promise<User>;
+  createUser: (data: Partial<User>) => Promise<User>;
   updateUser: (id: string, data: Partial<User>) => Promise<User>;
-  deleteUser: (id: string, token: string) => Promise<void>;
+  deleteUser: (id: string) => Promise<void>;
 
   // Pabellones
-  getPabellones: (token: string) => Promise<Pabellon[]>;
+  getPabellones: () => Promise<Pabellon[]>;
   getPabellon: (id: string) => Promise<Pabellon>;
   createPabellon: (data: Partial<Pabellon>) => Promise<Pabellon>;
   updatePabellon: (id: string, data: Partial<Pabellon>) => Promise<Pabellon>;
@@ -83,8 +83,7 @@ export interface DashboardService {
 
 export const dashboardService: DashboardService = {
   // Usuarios
-  async getUsers(token: string): Promise<User[]> {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  async getUsers(): Promise<User[]> {
     const response = await axiosInstance.get(`${API_URL}/auth/all`);
     return response.data.map((user: AuthUser) => ({
       id: user.id.toString(),
@@ -97,8 +96,7 @@ export const dashboardService: DashboardService = {
     const response = await axiosInstance.get(`${API_URL}/auth/${id}`);
     return response.data;
   },
-  createUser: async (data: Partial<User>, token: string) => {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  createUser: async (data: Partial<User>) => {
     const response = await axiosInstance.post(`${API_URL}/auth/create`, {
       username: data.name,
       email: data.email,
@@ -112,14 +110,12 @@ export const dashboardService: DashboardService = {
     const response = await axiosInstance.patch(`${API_URL}/auth/${id}`, data);
     return response.data;
   },
-  deleteUser: async (id, token: string) => {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  deleteUser: async (id) => {
     await axiosInstance.delete(`${API_URL}/auth/${id}`);
   },
 
   // Pabellones
-  async getPabellones(token: string): Promise<Pabellon[]> {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  async getPabellones(): Promise<Pabellon[]> {
     const response = await axiosInstance.get(`${API_URL}/pabellon`);
     return response.data;
   },
