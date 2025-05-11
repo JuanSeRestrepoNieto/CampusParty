@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosInstance from '../config/axios.config';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
@@ -83,8 +84,8 @@ export interface DashboardService {
 export const dashboardService: DashboardService = {
   // Usuarios
   async getUsers(token: string): Promise<User[]> {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    const response = await axios.get(`${API_URL}/auth/all`);
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const response = await axiosInstance.get(`${API_URL}/auth/all`);
     return response.data.map((user: AuthUser) => ({
       id: user.id.toString(),
       name: user.username,
@@ -93,12 +94,12 @@ export const dashboardService: DashboardService = {
     }));
   },
   getUser: async (id) => {
-    const response = await axios.get(`${API_URL}/auth/${id}`);
+    const response = await axiosInstance.get(`${API_URL}/auth/${id}`);
     return response.data;
   },
   createUser: async (data: Partial<User>, token: string) => {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    const response = await axios.post(`${API_URL}/auth/create`, {
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const response = await axiosInstance.post(`${API_URL}/auth/create`, {
       username: data.name,
       email: data.email,
       password: data.password,
@@ -108,26 +109,26 @@ export const dashboardService: DashboardService = {
     return response.data;
   },
   updateUser: async (id, data) => {
-    const response = await axios.patch(`${API_URL}/auth/${id}`, data);
+    const response = await axiosInstance.patch(`${API_URL}/auth/${id}`, data);
     return response.data;
   },
   deleteUser: async (id, token: string) => {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    await axios.delete(`${API_URL}/auth/${id}`);
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    await axiosInstance.delete(`${API_URL}/auth/${id}`);
   },
 
   // Pabellones
   async getPabellones(token: string): Promise<Pabellon[]> {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    const response = await axios.get(`${API_URL}/pabellon`);
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const response = await axiosInstance.get(`${API_URL}/pabellon`);
     return response.data;
   },
   getPabellon: async (id) => {
-    const response = await axios.get(`${API_URL}/pabellon`);
+    const response = await axiosInstance.get(`${API_URL}/pabellon`);
     return response.data;
   },
   createPabellon: async (data: Partial<Pabellon>) => {
-    const response = await axios.post(`${API_URL}/pabellon`, 
+    const response = await axiosInstance.post(`${API_URL}/pabellon`, 
       {
         nombre:data.name, 
         capacidad:data.capacity, 
@@ -138,52 +139,52 @@ export const dashboardService: DashboardService = {
     return response.data;
   },
   updatePabellon: async (id, data) => {
-    const response = await axios.patch(`${API_URL}/pabellon/${id}`, data);
+    const response = await axiosInstance.patch(`${API_URL}/pabellon/${id}`, data);
     return response.data;
   },
   deletePabellon: async (id) => {
-    await axios.delete(`${API_URL}/pabellon/${id}`);
+    await axiosInstance.delete(`${API_URL}/pabellon/${id}`);
   },
 
   // Eventos
   getEvents: async () => {
-    const response = await axios.get(`${API_URL}/events`);
+    const response = await axiosInstance.get(`${API_URL}/events`);
     return response.data;
   },
   getEvent: async (id) => {
-    const response = await axios.get(`${API_URL}/events/${id}`);
+    const response = await axiosInstance.get(`${API_URL}/events/${id}`);
     return response.data;
   },
   createEvent: async (data) => {
-    const response = await axios.post(`${API_URL}/events`, data);
+    const response = await axiosInstance.post(`${API_URL}/events`, data);
     return response.data;
   },
   updateEvent: async (id, data) => {
-    const response = await axios.put(`${API_URL}/events/${id}`, data);
+    const response = await axiosInstance.put(`${API_URL}/events/${id}`, data);
     return response.data;
   },
   deleteEvent: async (id) => {
-    await axios.delete(`${API_URL}/events/${id}`);
+    await axiosInstance.delete(`${API_URL}/events/${id}`);
   },
 
   // Participantes
   getParticipants: async () => {
-    const response = await axios.get(`${API_URL}/participants`);
+    const response = await axiosInstance.get(`${API_URL}/participants`);
     return response.data;
   },
   getParticipant: async (id) => {
-    const response = await axios.get(`${API_URL}/participants/${id}`);
+    const response = await axiosInstance.get(`${API_URL}/participants/${id}`);
     return response.data;
   },
   createParticipant: async (data) => {
-    const response = await axios.post(`${API_URL}/participants`, data);
+    const response = await axiosInstance.post(`${API_URL}/participants`, data);
     return response.data;
   },
   updateParticipant: async (id, data) => {
-    const response = await axios.put(`${API_URL}/participants/${id}`, data);
+    const response = await axiosInstance.put(`${API_URL}/participants/${id}`, data);
     return response.data;
   },
   deleteParticipant: async (id) => {
-    await axios.delete(`${API_URL}/participants/${id}`);
+    await axiosInstance.delete(`${API_URL}/participants/${id}`);
   }
 };

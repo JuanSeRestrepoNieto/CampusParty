@@ -9,7 +9,7 @@ import { integracionService } from '../services/integracion.service';
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'users' | 'pabellones' | 'participants' | 'integracion'>('users');
   const [users, setUsers] = useState<any[]>([]);
-  const token = useAuth().token;
+  const token = useAuth();
   const [addUserModal, setAddUserModal] = useState(false);
   const [pabellones, setPabellones] = useState<any[]>([]);
   const [participants, setParticipants] = useState<any[]>([]);
@@ -56,7 +56,7 @@ const Dashboard: React.FC = () => {
   const fetchData = async () => {
     try {
       const [usersData, integracionData, pabellonesData] = await Promise.all([
-        dashboardService.getUsers(token!),
+        dashboardService.getUsers(),
         integracionService.getJSONPlaceHolder(),
         dashboardService.getPabellones(token!)
       ]);

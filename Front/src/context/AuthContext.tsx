@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { storageService } from '../services/storage.service';
 
 interface User {
   id: string;
@@ -10,8 +9,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
-  login: (userData: User, token: string) => void;
+  login: (userData: User) => void;
   logout: () => void;
   isLoading: boolean;
   hasRole: (role: string) => boolean;
@@ -21,46 +19,28 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Cargar datos del usuario y token al iniciar
-    const savedToken = storageService.getToken();
-    const savedRole = storageService.getRole();
-    
-    if (savedToken && savedRole) {
-      setToken(savedToken);
-      setUser({
-        id: '1',
-        name: 'Usuario Demo',
-        email: 'demo@campusparty.com',
-        role: savedRole
-      });
-    }
-
+    // Aquí podrías hacer una petición a /auth/me si tu backend ofrece el perfil del usuario autenticado
+    // Por ahora solo desactivamos la carga inicial simulada
     setIsLoading(false);
   }, []);
 
-  const login = (userData: User, token: string) => {
+  const login = (userData: User) => {
     setUser(userData);
-    setToken(token);
-    storageService.setToken(token);
-    storageService.setRole(userData.role);
   };
 
   const logout = () => {
     setUser(null);
-    setToken(null);
-    storageService.clear();
+    // Opcional: llamada al backend para cerrar sesión (borrar cookie)
+    // axios.post('/auth/logout', {}, { withCredentials: true });
   };
 
-  const hasRole = (role: string) => {
-    return user?.role === role;
-  };
+  const hasRole = (role: string) => user?.role === role;
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading, hasRole }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading, hasRole }}>
       {children}
     </AuthContext.Provider>
   );

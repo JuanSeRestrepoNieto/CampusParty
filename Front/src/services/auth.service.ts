@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../config/axios.config';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
@@ -14,32 +14,38 @@ export interface LoginPayload {
   password: string;
 }
 
-export interface AuthResponse {
+export interface AuthUser {
   id: string;
   name: string;
   email: string;
-  access_token: string;
+  role: string;
 }
 
 export const authService = {
-  register: async (data: RegisterPayload): Promise<AuthResponse> => {
-    const response = await axios.post(`${API_URL}/auth/register`, data);
+  register: async (data: RegisterPayload): Promise<AuthUser> => {
+    const response = await axiosInstance.post(`${API_URL}/auth/register`, data, {
+      withCredentials: true,
+    });
     return response.data;
   },
 
-  login: async (data: LoginPayload): Promise<AuthResponse> => {
-    const response = await axios.post(`${API_URL}/auth/login`, data);
+  login: async (data: LoginPayload): Promise<AuthUser> => {
+    const response = await axiosInstance.post(`${API_URL}/auth/login`, data, {
+      withCredentials: true,
+    });
     return response.data;
   },
 
-  validateToken: async (token: string): Promise<boolean> => {
-    try {
-      const response = await axios.get(`${API_URL}/auth/validate`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      return response.data.valid;
-    } catch (error) {
-      return false;
-    }
+  logout: async (): Promise<void> => {
+    await axiosInstance.post(`${API_URL}/auth/logout`, {}, {
+      withCredentials: true,
+    });
+  },
+
+  getCurrentUser: async (): Promise<AuthUser> => {
+    const response = await axiosInstance.get(`${API_URL}/auth/me`, {
+      withCredentials: true,
+    });
+    return response.data;
   }
 };
